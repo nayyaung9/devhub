@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
-      "@config/*": ["src/config/*"],
+      "@middlewares/*": ["src/middlewares/*"],
       "@styles/*": ["src/@styles/*"],
       "@lib/*": ["src/@lib/*"],
       "@states/*": ["src/@states/*"],

@@ -9,6 +9,9 @@
 ## Resources
 https://www.prisma.io/docs/reference/database-reference/connection-urls
 
+https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/using-prisma-migrate-typescript-postgres/
+
+https://developer.mongodb.com/how-to/nextjs-building-modern-applications/
 ## Solutions
 
 #### Database
