@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
@@ -23,18 +22,7 @@ import Link from "next/link";
 const Links = ["Project", "Projects", "Team"];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={"#"}
-  >
-    {children}
-  </Link>
+  <Link href={"#"}>{children}</Link>
 );
 
 export default function Header() {
@@ -42,7 +30,7 @@ export default function Header() {
   const [user] = useCurrentUser();
   const router = useRouter();
 
-  const onLogout = async (e) => {
+  const onLogout = async (e: any) => {
     e.preventDefault();
 
     const res = await fetch("/api/auth", {
@@ -94,7 +82,9 @@ export default function Header() {
               {user ? (
                 <MenuList>
                   <MenuItem>Profile</MenuItem>
-                  <MenuItem>Create projects</MenuItem>
+                  <Link href="/new/project">
+                    <MenuItem>Launch projects</MenuItem>
+                  </Link>
                   <MenuItem>Create blogs</MenuItem>
                   <MenuItem>Find remote jobs</MenuItem>
                   <MenuDivider />

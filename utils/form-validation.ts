@@ -29,3 +29,14 @@ export const signUpValidation = Yup.object().shape({
     "Passwords must match"
   ),
 });
+
+export const projectValidation = Yup.object().shape({
+  title: Yup.string()
+    .min(2, "Project Title must be at least 2 characters")
+    .max(100)
+    .required("Project title is required"),
+  description: Yup.string().min(2).max(450),
+  projectUrl: Yup.string(),
+  demoUrl: Yup.string(),
+  tags: Yup.string().required("Please provide topics for your projects"),
+});

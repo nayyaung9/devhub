@@ -1,6 +1,9 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ChakraProvider } from "@chakra-ui/react";
+import theme from '../theme';
+
+import 'styles/globals.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -8,7 +11,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>Myanmar Developer Hub</title>
       </Head>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Component {...pageProps} />
       </ChakraProvider>
     </>

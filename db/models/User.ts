@@ -1,14 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IUser extends Document {
+export type UserDocument = mongoose.Document & {
   username: string;
   email: string;
   fullName: string;
   password: string;
+};
 
-}
-
-const UserSchema: Schema = new Schema(
+const UserSchema = new Schema<UserDocument>(
   {
     username: {
       type: String,
@@ -29,6 +28,7 @@ const UserSchema: Schema = new Schema(
 UserSchema.set("toJSON", {
   versionKey: false,
 });
+const User =
+  mongoose.models.User || mongoose.model<UserDocument>("User", UserSchema);
 
-export default mongoose.models.User ||
-  mongoose.model<IUser>("User", UserSchema);
+export default User;
