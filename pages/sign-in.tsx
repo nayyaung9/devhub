@@ -18,7 +18,7 @@ import axios from "axios";
 import Router from "next/router";
 import { useCurrentUser } from "hooks/index";
 
-const SignUp: NextPage = () => {
+const SignIn: NextPage = () => {
   const [user, { mutate }] = useCurrentUser();
   return (
     <Flex
@@ -37,12 +37,8 @@ const SignUp: NextPage = () => {
         <Formik
           initialValues={{
             email: "",
-            fullName: "",
-            username: "",
             password: "",
-            passwordConfirmation: "",
           }}
-          validationSchema={signUpValidation}
           onSubmit={async (values) => {
             try {
               // const user: any = await axios.post("/api/auth/register", values);
@@ -52,7 +48,7 @@ const SignUp: NextPage = () => {
               // }
 
 
-              const res = await fetch("/api/auth/register", {
+              const res = await fetch("/api/auth", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(values),
@@ -81,21 +77,10 @@ const SignUp: NextPage = () => {
                 <FormControl id="email">
                   <InputControl name="email" label="Email Address" />
                 </FormControl>
-                <FormControl id="fullName">
-                  <InputControl name="fullName" label="Full Name" />
-                </FormControl>
-                <FormControl id="username">
-                  <InputControl name="username" label="Username" />
-                </FormControl>
                 <FormControl id="password">
                   <InputControl name="password" label="Password" />
                 </FormControl>
-                <FormControl id="passwordConfirmation">
-                  <InputControl
-                    name="passwordConfirmation"
-                    label="Confirm Password"
-                  />
-                </FormControl>
+            
                 <Stack spacing={10}>
                   <SubmitButton
                     fontFamily={"heading"}
@@ -120,4 +105,4 @@ const SignUp: NextPage = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

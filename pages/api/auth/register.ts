@@ -7,7 +7,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 const handler = nc();
 handler.use(all);
 
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+interface ExtendedRequest {
+  req: NextApiRequest;
+  body: RequestUser;
+  logIn: any;
+  user: ResponseUser;
+  session:  any;
+}
+
+handler.post(async (req: ExtendedRequest, res: NextApiResponse) => {
   const { email, fullName, username, password } = req.body;
 
   if (!password || !fullName || !username || !email) {
@@ -19,13 +27,17 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
   const hashedPassword = await bcrypt.hash(password, 10);
+
   const user = await registerUser({
     email,
     password: hashedPassword,
     fullName,
+    username,
   });
-
-  res.status(200).json({ user });
+  req.logIn(user, (err: any) => {
+    if (err) res.status(500).json({ user: null });
+    res.status(201).json({ user: req.user });
+  });
 });
 
 export default handler;

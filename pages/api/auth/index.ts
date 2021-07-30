@@ -1,8 +1,10 @@
 import nc from "next-connect";
 import { all } from "middlewares/index";
+import passport from "middlewares/passport";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = nc();
+
 handler.use(all);
 
 interface ExtendedRequest {
@@ -10,17 +12,11 @@ interface ExtendedRequest {
   user: ResponseUser;
 }
 
-handler.get(async (req: ExtendedRequest, res: NextApiResponse) => {
-  console.log('req.user', req.user)
-  if (!req.user) return res.json({ user: null });
-
-  res.json({ user: req.user });
-});
-
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+handler.post(
+  passport.authenticate("local"),
+  (req: ExtendedRequest, res: NextApiResponse) => {
+    return res.json({ user: req.user });
+  }
+);
 
 export default handler;
