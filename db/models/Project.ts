@@ -17,6 +17,7 @@ const ProjectSchema = new Schema<ProjectDocument>(
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,
@@ -30,9 +31,9 @@ const ProjectSchema = new Schema<ProjectDocument>(
     slug: {
       type: String,
     },
-    tags: {
+    tags: [{
       type: String,
-    },
+    }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

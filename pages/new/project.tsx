@@ -1,6 +1,7 @@
 import React from "react";
 import { NextPage } from "next";
 import Layout from "components/layout/Layout";
+
 import {
   Container,
   Heading,
@@ -15,6 +16,7 @@ import { Formik } from "formik";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import { projectValidation } from "utils/form-validation";
 import { useRouter } from "next/router";
+import TagsInput from "components/tagInput/TagsInput";
 
 /**
  * Here I set string array instead of array objects
@@ -41,7 +43,7 @@ const LaunchProject: NextPage = () => {
             projectUrl: "",
             projectType: "",
             demoUrl: "",
-            tags: "",
+            tags: [],
           }}
           validationSchema={projectValidation}
           onSubmit={async (values) => {
@@ -52,16 +54,17 @@ const LaunchProject: NextPage = () => {
                 body: JSON.stringify(values),
               });
 
-              if (newProject.status === 201) {
-                const { project } = await newProject.json();
-                toast({
-                  title: "Project Uploaded Successfully.",
-                  description:
-                    "Your project is uploaded. You will be redirect soon",
-                  status: "success",
-                  duration: 9000,
-                  isClosable: true,
-                });
+              const { project } = await newProject.json();
+              console.log(project);
+              toast({
+                title: "Project Uploaded Successfully.",
+                description:
+                  "Your project is uploaded. You will be redirect soon",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+              });
+              if (project) {
                 router.push(`/p/${project?.slug}`);
               }
             } catch (error) {
@@ -76,7 +79,7 @@ const LaunchProject: NextPage = () => {
           }}
         >
           {({ handleSubmit, values, errors, setFieldValue }) => (
-            <Box as="form" p={2} onSubmit={handleSubmit}>
+            <Box as="form" onSubmit={handleSubmit}>
               <Stack spacing={4}>
                 <FormControl id="title">
                   <InputControl name="title" label="Project Title" />
@@ -112,7 +115,8 @@ const LaunchProject: NextPage = () => {
                   <InputControl name="demoUrl" label="Project Demo Url" />
                 </FormControl>
                 <FormControl id="tags">
-                  <InputControl name="tags" label="Topics" />
+                  <FormLabel>Project Topic</FormLabel>
+                  <TagsInput setTopicFieldState={setFieldValue} />
                 </FormControl>
               </Stack>
               <Stack spacing={10}>

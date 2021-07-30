@@ -36,8 +36,8 @@ export const projectValidation = Yup.object().shape({
     .max(100)
     .required("Project title is required"),
   description: Yup.string().min(2).max(450),
-  projectType: Yup.string().required('Please provide your project type'),
+  projectType: Yup.string().required("Please provide your project type"),
   projectUrl: Yup.string(),
   demoUrl: Yup.string(),
-  tags: Yup.string().required("Please provide topics for your projects"),
+  tags: Yup.mixed().required("Please provide your topics"),
 });
