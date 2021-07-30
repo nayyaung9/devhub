@@ -9,3 +9,13 @@ export async function createProject({ ...payload }) {
     return error;
   }
 }
+
+export async function fetchAllProjects() {
+  try {
+    let projects = await Project.find().populate("user");
+
+    return projects;
+  } catch (error) {
+    return error;
+  }
+}

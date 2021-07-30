@@ -9,7 +9,6 @@ import {
   FormControl,
   FormLabel,
   Select,
-  Text,
   useToast,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
