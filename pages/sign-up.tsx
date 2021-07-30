@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Flex,
   Box,
@@ -15,11 +15,18 @@ import { Formik } from "formik";
 import { InputControl, SubmitButton } from "formik-chakra-ui";
 import { signUpValidation } from "utils/form-validation";
 import axios from "axios";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useCurrentUser } from "hooks/index";
 
 const SignUp: NextPage = () => {
   const [user, { mutate }] = useCurrentUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    // redirect to home if user is authenticated
+    if (user) router.push("/");
+  }, [user]);
+
   return (
     <Flex
       minH={"100vh"}

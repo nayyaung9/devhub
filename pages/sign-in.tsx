@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Flex,
   Box,
@@ -14,12 +14,18 @@ import { NextPage } from "next";
 import { Formik } from "formik";
 import { InputControl, SubmitButton } from "formik-chakra-ui";
 import { signUpValidation } from "utils/form-validation";
-import axios from "axios";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useCurrentUser } from "hooks/index";
 
 const SignIn: NextPage = () => {
   const [user, { mutate }] = useCurrentUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    // redirect to home if user is authenticated
+    if (user) router.push("/");
+  }, [user]);
+
   return (
     <Flex
       minH={"100vh"}
@@ -41,13 +47,6 @@ const SignIn: NextPage = () => {
           }}
           onSubmit={async (values) => {
             try {
-              // const user: any = await axios.post("/api/auth/register", values);
-              // console.log("ui", user.data.user);
-              // if (user.status === 201) {
-              //   mutate({ user: user.data.user });
-              // }
-
-
               const res = await fetch("/api/auth", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -56,7 +55,7 @@ const SignIn: NextPage = () => {
 
               if (res.status === 201) {
                 const userObj = await res.json();
-                console.log('userObj', userObj)
+                console.log("userObj", userObj);
                 mutate(userObj);
               }
             } catch (error) {
@@ -80,7 +79,7 @@ const SignIn: NextPage = () => {
                 <FormControl id="password">
                   <InputControl name="password" label="Password" />
                 </FormControl>
-            
+
                 <Stack spacing={10}>
                   <SubmitButton
                     fontFamily={"heading"}

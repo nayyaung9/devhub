@@ -4,7 +4,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -19,6 +18,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useCurrentUser } from "hooks/index";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Links = ["Project", "Projects", "Team"];
 
@@ -102,8 +102,10 @@ export default function Header() {
                 </MenuList>
               ) : (
                 <MenuList>
-                  <MenuItem>Sign In</MenuItem>
-                  <MenuItem>Sign Out</MenuItem>
+                  <Link href="/sign-in">
+                    <MenuItem>Sign In</MenuItem>
+                  </Link>
+                  <MenuItem>Sign Up</MenuItem>
                 </MenuList>
               )}
             </Menu>
