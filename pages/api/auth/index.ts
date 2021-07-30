@@ -10,6 +10,7 @@ handler.use(all);
 interface ExtendedRequest {
   req: NextApiRequest;
   user: ResponseUser;
+  logOut: () => void;
 }
 
 handler.post(
@@ -18,5 +19,10 @@ handler.post(
     return res.json({ user: req.user });
   }
 );
+
+handler.delete((req: ExtendedRequest, res: NextApiResponse) => {
+  req.logOut();
+  res.status(204).end();
+});
 
 export default handler;

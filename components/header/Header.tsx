@@ -17,6 +17,8 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { useCurrentUser } from "hooks/index";
+import { useRouter } from "next/router";
 
 const Links = ["Project", "Projects", "Team"];
 
@@ -37,6 +39,18 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [user] = useCurrentUser();
+  const router = useRouter();
+
+  const onLogout = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch("/api/auth", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.status === 204) router.reload();
+  };
 
   return (
     <>
@@ -77,14 +91,21 @@ export default function Header() {
                   }
                 />
               </MenuButton>
-              <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Create projects</MenuItem>
-                <MenuItem>Create blogs</MenuItem>
-                <MenuItem>Find remote jobs</MenuItem>
-                <MenuDivider />
-                <MenuItem>Logout</MenuItem>
-              </MenuList>
+              {user ? (
+                <MenuList>
+                  <MenuItem>Profile</MenuItem>
+                  <MenuItem>Create projects</MenuItem>
+                  <MenuItem>Create blogs</MenuItem>
+                  <MenuItem>Find remote jobs</MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={onLogout}>Logout</MenuItem>
+                </MenuList>
+              ) : (
+                <MenuList>
+                  <MenuItem>Sign In</MenuItem>
+                  <MenuItem>Sign Out</MenuItem>
+                </MenuList>
+              )}
             </Menu>
           </Flex>
         </Flex>
