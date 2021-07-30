@@ -24,7 +24,7 @@ import TagsInput from "components/tagInput/TagsInput";
  */
 const projectTypes: string[] = [
   "Launch",
-  "Need Collaborator",
+  "Invite Collaborator",
   "Need Suggestion",
   "Ask for Help",
 ];

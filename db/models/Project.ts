@@ -8,6 +8,7 @@ export type ProjectDocument = mongoose.Document & {
   slug: string;
   projectUrl: string;
   projectType: string;
+  demoUrl: string;
   tags: string;
   user: UserDocument;
 };
@@ -34,6 +35,9 @@ const ProjectSchema = new Schema<ProjectDocument>(
     tags: [{
       type: String,
     }],
+    demoUrl: {
+      type: String,
+    },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

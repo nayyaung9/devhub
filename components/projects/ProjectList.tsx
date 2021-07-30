@@ -6,13 +6,29 @@ import {
   Text,
   Tag,
   CircularProgress,
+  Avatar,
 } from "@chakra-ui/react";
 import { FaGithub } from "react-icons/fa";
 import { useProjects } from "hooks/index";
+import moment from "moment";
 
 const ProjectList = () => {
   const { projects, isError, isLoading } = useProjects();
 
+  const renderProjectType = (type: string) => {
+    switch (type?.toLocaleLowerCase()) {
+      case "launch":
+        return "launched";
+      case "invite collaborator":
+        return "invite collaborator";
+      case "need suggestion":
+        return "need suggestion";
+      case "ask for help":
+        return "ask for help";
+      default:
+        return "has launched";
+    }
+  };
   return (
     <SimpleGrid minChildWidth="200px" spacing="40px">
       {isError ? (
@@ -28,13 +44,26 @@ const ProjectList = () => {
       ) : (
         <React.Fragment>
           {projects.map(
-            ({ id, title, description, projectUrl, demoUrl, tags }: any) => (
+            ({
+              id,
+              title,
+              description,
+              projectUrl,
+              projectType,
+              demoUrl,
+              tags,
+              user,
+              createdAt,
+            }: any) => (
               <Box p={4} key={id} boxShadow="md" cursor="pointer">
                 {/* Title & Actions */}
                 <Flex justifyContent="space-between" alignItems="center">
-                  <Text fontSize="md" noOfLines={1}>
-                    {title}
-                  </Text>
+                  <Flex flexDirection="row" alignItems="center">
+                    <Text fontSize="md" noOfLines={1}>
+                      {title}
+                    </Text>
+                  </Flex>
+
                   <Box>
                     {projectUrl && (
                       <Text display="inline">
@@ -81,7 +110,7 @@ const ProjectList = () => {
 
                 {/* Topics */}
                 <Flex spacing={2} flexWrap="wrap">
-                  {/* {tags.map((tag: string) => (
+                  {tags.map((tag: string) => (
                     <div key={tag}>
                       <Tag
                         size="sm"
@@ -95,9 +124,31 @@ const ProjectList = () => {
                         {tag}
                       </Tag>
                     </div>
-                  ))} */}
+                  ))}
                 </Flex>
                 {/* Topics */}
+
+                <Flex flexDirection="row" alignItems="center" mt={4}>
+                  <Avatar
+                    size="sm"
+                    name="Dan Abrahmov"
+                    src="https://bit.ly/dan-abramov"
+                  />
+                  <Box ml={2}>
+                    <Flex flexDirection="row">
+                      <Text fontSize="md" fontWeight="bold">
+                        {user?.username}&nbsp;
+                      </Text>
+
+                      <Text fontSize="md">
+                        {renderProjectType(projectType)}
+                      </Text>
+                    </Flex>
+                    <Text color="gray.400" fontSize="xs">
+                      {moment(createdAt).fromNow()}
+                    </Text>
+                  </Box>
+                </Flex>
               </Box>
             )
           )}

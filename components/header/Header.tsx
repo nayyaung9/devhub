@@ -52,7 +52,7 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
+            <Box>DevHub</Box>
             <HStack
               as={"nav"}
               spacing={4}
