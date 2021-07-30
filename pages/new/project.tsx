@@ -7,13 +7,30 @@ import {
   Box,
   Stack,
   FormControl,
+  FormLabel,
   Select,
+  Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import { projectValidation } from "utils/form-validation";
+import { useRouter } from "next/router";
+
+/**
+ * Here I set string array instead of array objects
+ * Cause I am really boring :3
+ */
+const projectTypes: string[] = [
+  "Launch",
+  "Need Collaborator",
+  "Need Suggestion",
+  "Ask for Help",
+];
 
 const LaunchProject: NextPage = () => {
+  const toast = useToast();
+  const router = useRouter();
   return (
     <Layout>
       <Container>
@@ -23,26 +40,64 @@ const LaunchProject: NextPage = () => {
             title: "",
             description: "",
             projectUrl: "",
+            projectType: "",
             demoUrl: "",
             tags: "",
           }}
           validationSchema={projectValidation}
           onSubmit={async (values) => {
-            console.log(values);
+            try {
+              let newProject = await fetch("/api/project/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(values),
+              });
+
+              if (newProject.status === 201) {
+                const { project } = await newProject.json();
+                toast({
+                  title: "Project Uploaded Successfully.",
+                  description:
+                    "Your project is uploaded. You will be redirect soon",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                });
+                router.push(`/p/${project?.slug}`);
+              }
+            } catch (error) {
+              toast({
+                title: "Project Upload Failed.",
+                description: "Creating project isn't available right now.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+            }
           }}
         >
-          {({ handleSubmit, values, errors }) => (
+          {({ handleSubmit, values, errors, setFieldValue }) => (
             <Box as="form" p={2} onSubmit={handleSubmit}>
               <Stack spacing={4}>
                 <FormControl id="title">
                   <InputControl name="title" label="Project Title" />
                 </FormControl>
                 <FormControl id="projectType">
-                  <Select placeholder="Select option">
-                    <option value="option3">Launch</option>
-                    <option value="option1">Need Collaborator</option>
-                    <option value="option2">Need Suggestion</option>
-                    <option value="option3">Ask for Help</option>
+                  <FormLabel>Project Type</FormLabel>
+                  <Select
+                    placeholder="Select Project Type"
+                    value={values.projectType}
+                    name="projectType"
+                    borderColor={errors?.projectType ? "#f00" : "inherit"}
+                    onChange={(e) =>
+                      setFieldValue("projectType", e.target.value)
+                    }
+                  >
+                    {projectTypes.map((type: string) => (
+                      <option value={type} key={type}>
+                        {type}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl id="description">

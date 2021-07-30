@@ -11,7 +11,6 @@ interface ExtendedRequest {
 }
 
 handler.get(async (req: ExtendedRequest, res: NextApiResponse) => {
-  console.log('req.user', req.user)
   if (!req.user) return res.json({ user: null });
 
   res.json({ user: req.user });

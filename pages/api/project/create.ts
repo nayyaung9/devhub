@@ -6,8 +6,17 @@ import { NextApiRequest, NextApiResponse } from "next";
 const handler = nc();
 handler.use(all);
 
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const project = await createProject(req.body);
+interface ExtendedRequest {
+  req: NextApiRequest;
+  body: RequestUser;
+  user: ResponseUser;
+}
+
+handler.post(async (req: ExtendedRequest, res: NextApiResponse) => {
+  /**
+   * Here we added authenticated user id from session
+   */
+  const project = await createProject({ ...req.body, user: req.user._id });
 
   return res.status(201).json({ project });
 });

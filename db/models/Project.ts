@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-// import slugify from "slugify";
+import slugify from "slugify";
 import { UserDocument } from "./User";
 
 export type ProjectDocument = mongoose.Document & {
@@ -7,6 +7,7 @@ export type ProjectDocument = mongoose.Document & {
   description: string;
   slug: string;
   projectUrl: string;
+  projectType: string;
   tags: string;
   user: UserDocument;
 };
@@ -20,24 +21,31 @@ const ProjectSchema = new Schema<ProjectDocument>(
     description: {
       type: String,
     },
+    projectType: {
+      type: String,
+    },
     projectUrl: {
+      type: String,
+    },
+    slug: {
       type: String,
     },
     tags: {
       type: String,
     },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
 
 ProjectSchema.pre("save", function save(next) {
-  const product = this as ProjectDocument;
+  const project = this as ProjectDocument;
 
-  // product.slug = slugify(this.title, {
-  //   replacement: "-",
-  //   lower: true,
-  //   strict: false,
-  // });
+  project.slug = slugify(this.title, {
+    replacement: "-",
+    lower: true,
+    strict: false,
+  });
   next();
 });
 
@@ -46,7 +54,7 @@ ProjectSchema.set("toJSON", {
 });
 
 const Project =
-mongoose.models.Project ||
+  mongoose.models.Project ||
   mongoose.model<ProjectDocument>("Project", ProjectSchema);
 
 export default Project;

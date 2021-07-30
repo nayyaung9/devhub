@@ -14,7 +14,6 @@ import { NextPage } from "next";
 import { Formik } from "formik";
 import { InputControl, SubmitButton } from "formik-chakra-ui";
 import { signUpValidation } from "utils/form-validation";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useCurrentUser } from "hooks/index";
 

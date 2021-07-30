@@ -5,7 +5,6 @@ import ProjectList from "components/projects/ProjectList";
 
 export default function Home() {
   const [user] = useCurrentUser();
-  console.log(user);
   return (
     <Layout>
       <ProjectList />
