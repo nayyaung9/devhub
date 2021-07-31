@@ -15,7 +15,6 @@ import {
   Text,
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
@@ -25,11 +24,10 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useCurrentUser } from "hooks/index";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import routeItems from "./routes";
 
-const Links = ["Project", "Projects", "Team"];
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link href={"#"}>{children}</Link>
+const NavLink = ({ children }: { children: any }) => (
+  <Link href={children.route}>{children.name}</Link>
 );
 
 export default function Header() {
@@ -60,26 +58,19 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>DevHub</Box>
+            <Box display={{ md: "flex" }}>DevHub</Box>
 
             <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
               <DrawerOverlay />
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Create your account</DrawerHeader>
+                <DrawerHeader>DevHub</DrawerHeader>
 
                 <DrawerBody>
-                  {Links.map((link) => (
-                    <NavLink key={link}>{link}</NavLink>
+                  {routeItems.drawerItems.map((link) => (
+                    <NavLink key={link.id}>{link}</NavLink>
                   ))}
                 </DrawerBody>
-
-                <DrawerFooter>
-                  <Button variant="outline" mr={3} onClick={onClose}>
-                    Cancel
-                  </Button>
-                  <Button colorScheme="blue">Save</Button>
-                </DrawerFooter>
               </DrawerContent>
             </Drawer>
           </HStack>
@@ -101,15 +92,17 @@ export default function Header() {
                   </MenuButton>
 
                   <MenuList>
-                  <Link href={`@${user._id}`}>
-                  <MenuItem>Profile</MenuItem>
+                    <Link href={`/@${user._id}`}>
+                      <MenuItem>Profile</MenuItem>
                     </Link>
-                   
+
                     <Link href="/new/project">
-                      <MenuItem>Launch projects</MenuItem>
+                      <MenuItem>Launch project</MenuItem>
                     </Link>
-                    <MenuItem>Create blogs</MenuItem>
-                    <MenuItem>Find remote jobs</MenuItem>
+
+                    <Link href="/new/blog">
+                      <MenuItem>Create blog</MenuItem>
+                    </Link>
                     <MenuDivider />
                     <MenuItem onClick={onLogout}>Logout</MenuItem>
                   </MenuList>

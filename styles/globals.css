@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 /* Scrollbar */
 
@@ -20,4 +20,8 @@
   width: 0;
   height: 0;
   display: none;
+}
+
+body {
+  background-color: rgba(243, 244, 246, 1) !important;
 }

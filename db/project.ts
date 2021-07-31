@@ -6,7 +6,7 @@ export async function createProject({ ...payload }) {
 
     return await newProject.save();
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -18,6 +18,6 @@ export async function fetchAllProjects() {
 
     return projects;
   } catch (error) {
-    return error;
+    throw error;
   }
 }

@@ -41,3 +41,14 @@ export const projectValidation = Yup.object().shape({
   demoUrl: Yup.string(),
   tags: Yup.mixed().required("Please provide your topics"),
 });
+
+export const blogValidation = Yup.object().shape({
+  title: Yup.string()
+    .min(2, "Project Title must be at least 2 characters")
+    .max(100)
+    .required("Project title is required"),
+  content: Yup.string()
+    .min(2)
+    .max(1500)
+    .required("Project content is required"),
+});

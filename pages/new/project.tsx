@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NextPage } from "next";
 import Layout from "components/layout/Layout";
 
@@ -17,6 +17,7 @@ import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import { projectValidation } from "utils/form-validation";
 import { useRouter } from "next/router";
 import TagsInput from "components/tagInput/TagsInput";
+import { useCurrentUser } from "hooks/index";
 
 /**
  * Here I set string array instead of array objects
@@ -32,9 +33,16 @@ const projectTypes: string[] = [
 const LaunchProject: NextPage = () => {
   const toast = useToast();
   const router = useRouter();
+
+  const [user] = useCurrentUser();
+  useEffect(() => {
+    // redirect to home if user is not authenticated
+    if (user === null) router.push("/");
+  }, [user]);
+
   return (
     <Layout>
-      <Container>
+      <Container mt={3}>
         <Heading size="md">Launch Project</Heading>
         <Formik
           initialValues={{
