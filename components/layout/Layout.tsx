@@ -13,7 +13,7 @@ const Layout = ({ children }: ILayoutProps) => {
         <title>Myanmar Developer Hub</title>
       </Head>
       <Header />
-      <Box p={4}>{children}</Box>
+      <Box>{children}</Box>
     </React.Fragment>
   );
 };

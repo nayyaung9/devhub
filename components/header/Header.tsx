@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
   Box,
   Flex,
@@ -12,7 +12,14 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  Stack,
+  Text,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useCurrentUser } from "hooks/index";
@@ -42,75 +49,86 @@ export default function Header() {
 
   return (
     <>
-      <Box bg="white" px={4}>
+      <Box bg="white" px={4} borderColor="gray.100" borderWidth={1}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ md: "none" }}
+            bgColor="transparent"
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box>DevHub</Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+
+            <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+              <DrawerOverlay />
+              <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerHeader>Create your account</DrawerHeader>
+
+                <DrawerBody>
+                  {Links.map((link) => (
+                    <NavLink key={link}>{link}</NavLink>
+                  ))}
+                </DrawerBody>
+
+                <DrawerFooter>
+                  <Button variant="outline" mr={3} onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button colorScheme="blue">Save</Button>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
           </HStack>
           <Flex alignItems={"center"}>
             <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
-              >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-              </MenuButton>
               {user ? (
-                <MenuList>
+                <React.Fragment>
+                  <MenuButton
+                    as={Button}
+                    rounded={"full"}
+                    variant={"link"}
+                    cursor={"pointer"}
+                    minW={0}
+                  >
+                    <Avatar
+                      size={"sm"}
+                      src={`https://ui-avatars.com/api/?name=${user.username}`}
+                    />
+                  </MenuButton>
+
+                  <MenuList>
+                  <Link href={`@${user._id}`}>
                   <MenuItem>Profile</MenuItem>
-                  <Link href="/new/project">
-                    <MenuItem>Launch projects</MenuItem>
-                  </Link>
-                  <MenuItem>Create blogs</MenuItem>
-                  <MenuItem>Find remote jobs</MenuItem>
-                  <MenuDivider />
-                  <MenuItem onClick={onLogout}>Logout</MenuItem>
-                </MenuList>
+                    </Link>
+                   
+                    <Link href="/new/project">
+                      <MenuItem>Launch projects</MenuItem>
+                    </Link>
+                    <MenuItem>Create blogs</MenuItem>
+                    <MenuItem>Find remote jobs</MenuItem>
+                    <MenuDivider />
+                    <MenuItem onClick={onLogout}>Logout</MenuItem>
+                  </MenuList>
+                </React.Fragment>
               ) : (
-                <MenuList>
+                <HStack spacing={4} alignItems={"center"}>
                   <Link href="/sign-in">
-                    <MenuItem>Sign In</MenuItem>
+                    <Text fontSize="sm">Sign In </Text>
                   </Link>
-                  <MenuItem>Sign Up</MenuItem>
-                </MenuList>
+                  <Box>
+                    <Link href="/sign-up">
+                      <Text fontSize="sm">Sign Up </Text>
+                    </Link>
+                  </Box>
+                </HStack>
               )}
             </Menu>
           </Flex>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

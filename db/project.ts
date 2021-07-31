@@ -12,7 +12,9 @@ export async function createProject({ ...payload }) {
 
 export async function fetchAllProjects() {
   try {
-    let projects = await Project.find().populate("user");
+    let projects = await Project.find()
+      .populate("user")
+      .sort({ createdAt: -1 });
 
     return projects;
   } catch (error) {
