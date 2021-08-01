@@ -87,6 +87,7 @@ const LaunchBlog: NextPage = () => {
                 <FormControl id="title" mt={5}>
                   <InputControl
                     name="title"
+                    bgColor="white"
                     inputProps={{
                       placeholder: "Type your title",
                     }}
@@ -94,7 +95,7 @@ const LaunchBlog: NextPage = () => {
                 </FormControl>
 
                 <FormControl id="content">
-                  <TextareaControl name="content" label="Description" />
+                  <TextareaControl name="content"   bgColor="white" label="Description" />
                 </FormControl>
                 <ImageUpload />
 

@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useProjects } from "hooks/index";
 import moment from "moment";
+import Link from "next/link";
 
 const ExploreProjectList = () => {
   const { projects, isError, isLoading } = useProjects();
@@ -39,7 +40,9 @@ const ExploreProjectList = () => {
       borderRadius=".25rem"
     >
       <Box p={4}>
+      <Link href='/projects' passHref={true}>
         <Heading fontSize="md">Explore Awesome Projects</Heading>
+        </Link>
       </Box>
 
       <Divider />

@@ -30,6 +30,18 @@ export const signUpValidation = Yup.object().shape({
   ),
 });
 
+export const signInValidation = Yup.object().shape({
+  email: Yup.string()
+    .min(3, emailNotLongEnough)
+    .max(100)
+    .email(invalidEmail)
+    .required("Email is required"),
+  password: Yup.string()
+    .min(8, passwordNotLongEnough)
+    .max(100)
+    .required("Please Enter your password"),
+});
+
 export const projectValidation = Yup.object().shape({
   title: Yup.string()
     .min(2, "Project Title must be at least 2 characters")

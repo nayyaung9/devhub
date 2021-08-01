@@ -89,11 +89,16 @@ const LaunchProject: NextPage = () => {
           {({ handleSubmit, values, errors, setFieldValue }) => (
             <Box as="form" onSubmit={handleSubmit}>
               <Stack spacing={4}>
-                <FormControl id="title">
-                  <InputControl name="title" label="Project Title" />
+                <FormControl id="title" mt={3}>
+                  <InputControl
+                    name="title"
+                    bgColor="white"
+                    inputProps={{
+                      placeholder: "Project Title",
+                    }}
+                  />
                 </FormControl>
-                <FormControl id="projectType">
-                  <FormLabel>Project Type</FormLabel>
+                <FormControl i bgColor="white" d="projectType">
                   <Select
                     placeholder="Select Project Type"
                     value={values.projectType}
@@ -111,16 +116,31 @@ const LaunchProject: NextPage = () => {
                   </Select>
                 </FormControl>
                 <FormControl id="description">
-                  <TextareaControl name="description" label="Description" />
+                  <TextareaControl
+                    name="description"
+                    bgColor="white"
+                    textareaProps={{
+                      placeholder: "Description",
+                    }}
+                  />
                 </FormControl>
                 <FormControl id="projectUrl">
                   <InputControl
                     name="projectUrl"
-                    label="Github Repository Url"
+                    bgColor="white"
+                    inputProps={{
+                      placeholder: "Github Repository Url",
+                    }}
                   />
                 </FormControl>
                 <FormControl id="demoUrl">
-                  <InputControl name="demoUrl" label="Project Demo Url" />
+                  <InputControl
+                    name="demoUrl"
+                    bgColor="white"
+                    inputProps={{
+                      placeholder: "Project Demo Url",
+                    }}
+                  />
                 </FormControl>
                 <FormControl id="tags">
                   <FormLabel>Project Topic</FormLabel>

@@ -5,12 +5,12 @@ import {
   Flex,
   Text,
   Tag,
-  CircularProgress,
   Avatar,
 } from "@chakra-ui/react";
 import { FaGithub } from "react-icons/fa";
 import { useProjects } from "hooks/index";
 import moment from "moment";
+import BlogSkeleton from "components/skeleton/BlogSkeleton";
 
 const ProjectList = () => {
   const { projects, isError, isLoading } = useProjects();
@@ -37,7 +37,7 @@ const ProjectList = () => {
             There was an error while fetching projects.
           </Text>
         ) : isLoading ? (
-          <CircularProgress isIndeterminate color="green.300" />
+          <BlogSkeleton />
         ) : projects.length === 0 ? (
           <Text align="center" color="gray.400">
             No Projects found on DevHub.
@@ -55,7 +55,14 @@ const ProjectList = () => {
                 user,
                 createdAt,
               }: any) => (
-                <Box p={4} key={id} boxShadow="md" cursor="pointer">
+                <Box
+                  p={4}
+                  key={id}
+                  boxShadow="0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)"
+                  cursor="pointer"
+                  borderRadius=".25rem"
+                  bgColor="white"
+                >
                   {/* Title & Actions */}
                   <Flex justifyContent="space-between" alignItems="center">
                     <Flex flexDirection="row" alignItems="center">

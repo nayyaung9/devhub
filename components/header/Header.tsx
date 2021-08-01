@@ -109,13 +109,17 @@ export default function Header() {
                 </React.Fragment>
               ) : (
                 <HStack spacing={4} alignItems={"center"}>
+                    <Button variant="ghost">
                   <Link href="/sign-in">
                     <Text fontSize="sm">Sign In </Text>
                   </Link>
-                  <Box>
-                    <Link href="/sign-up">
-                      <Text fontSize="sm">Sign Up </Text>
-                    </Link>
+                  </Button>
+                  <Box display={{ md: "block", base: "none" }}>
+                    <Button variant="outline">
+                      <Link href="/sign-up">
+                        <Text fontSize="sm">Sign Up </Text>
+                      </Link>
+                    </Button>
                   </Box>
                 </HStack>
               )}

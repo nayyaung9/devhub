@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Image,
-  CircularProgress,
-  Avatar,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Image, Avatar, IconButton } from "@chakra-ui/react";
 import { useBlogs } from "hooks/index";
 import moment from "moment";
+import BlogSkeleton from "components/skeleton/BlogSkeleton";
+import { FaRegStar } from "react-icons/fa";
 
 const BlogList = () => {
   const { blogs, isError, isLoading } = useBlogs();
@@ -20,7 +15,7 @@ const BlogList = () => {
           There was an error while fetching projects.
         </Text>
       ) : isLoading ? (
-        <CircularProgress isIndeterminate color="green.300" />
+        <BlogSkeleton />
       ) : blogs.length === 0 ? (
         <Text align="center" color="gray.400">
           No Projects found on DevHub.
@@ -32,9 +27,8 @@ const BlogList = () => {
               <Box
                 key={id}
                 boxShadow="0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)"
-                cursor="pointer"
-                borderRadius='.25rem'
-                bgColor='white'
+                borderRadius=".25rem"
+                bgColor="white"
                 mb={4}
               >
                 <Box p={4}>
@@ -89,11 +83,11 @@ const BlogList = () => {
                     />
                   </Box>
                 )}
-                <Box p={4}>
-                  <Flex mt={3}>
-                    <Text fontSize="md" noOfLines={1}>
-                      {title}
-                    </Text>
+                <Box p={2}>
+                  <Flex>
+                    <IconButton borderRadius="full" bgColor="transparent" aria-label="Start-button">
+                      <FaRegStar />
+                    </IconButton>
                   </Flex>
                 </Box>
               </Box>
