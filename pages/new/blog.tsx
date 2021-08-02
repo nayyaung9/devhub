@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NextPage } from "next";
 import Layout from "components/layout/Layout";
-
+import dynamic from "next/dynamic";
 import {
   Container,
   Heading,
@@ -17,6 +17,9 @@ import { useRouter } from "next/router";
 import { useCurrentUser } from "hooks/index";
 import ImageUpload from "components/imageUpload/imageUpload";
 
+const Editor = dynamic(() => import("components/editor/Editor"), {
+  ssr: false,
+});
 /**
  * Here I set string array instead of array objects
  * Cause I am really boring :3
@@ -50,19 +53,19 @@ const LaunchBlog: NextPage = () => {
           }}
           validationSchema={blogValidation}
           onSubmit={async (values) => {
+            console.log(values);
             try {
-              let newblog = await fetch("/api/blog/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-              });
+              // let newblog = await fetch("/api/blog/create", {
+              //   method: "POST",
+              //   headers: { "Content-Type": "application/json" },
+              //   body: JSON.stringify(values),
+              // });
 
-              const { blog } = await newblog.json();
-              console.log(blog);
+              // const { blog } = await newblog.json();
+              // console.log(blog);
               toast({
                 title: "Blog Uploaded Successfully.",
-                description:
-                  "Your Blog is uploaded. You will be redirect soon",
+                description: "Your Blog is uploaded. You will be redirect soon",
                 status: "success",
                 duration: 9000,
                 isClosable: true,
@@ -87,19 +90,20 @@ const LaunchBlog: NextPage = () => {
                 <FormControl id="title" mt={5}>
                   <InputControl
                     name="title"
-                    bgColor="white"
                     inputProps={{
                       placeholder: "Type your title",
+                      bgColor: "white",
                     }}
                   />
                 </FormControl>
-
-                <FormControl id="content">
-                  <TextareaControl name="content"   bgColor="white" label="Description" />
+                <FormControl id="description" bgColor="white">
+                  <Editor
+                    content={values.content}
+                    onSetFieldChange={setFieldValue}
+                  />
                 </FormControl>
-                <ImageUpload />
 
-                
+                <ImageUpload />
               </Stack>
               <Stack spacing={10}>
                 <SubmitButton

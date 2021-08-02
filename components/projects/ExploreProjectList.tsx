@@ -38,10 +38,12 @@ const ExploreProjectList = () => {
       boxShadow="0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)"
       cursor="pointer"
       borderRadius=".25rem"
+      position="sticky"
+      top="20px"
     >
       <Box p={4}>
-      <Link href='/projects' passHref={true}>
-        <Heading fontSize="md">Explore Awesome Projects</Heading>
+        <Link href="/projects" passHref={true}>
+          <Heading fontSize="md">Explore Awesome Projects</Heading>
         </Link>
       </Box>
 
@@ -76,21 +78,19 @@ const ExploreProjectList = () => {
                       {title}
                     </Text>
                     <HStack spacing={2} mt={2}>
-                    <Tag
-                      size="sm"
-                    
-                      borderRadius="full"
-                      variant="outline"
-                      colorScheme="blue"
-                      cursor="pointer"
-                    >
-                      <TagLabel> {renderProjectType(projectType)}</TagLabel>
-                    </Tag>
-                    <Text color="gray.400" fontSize="xs">
-                      {moment(createdAt).fromNow()}
-                    </Text>
+                      <Tag
+                        size="sm"
+                        borderRadius="full"
+                        variant="outline"
+                        colorScheme="blue"
+                        cursor="pointer"
+                      >
+                        <TagLabel> {renderProjectType(projectType)}</TagLabel>
+                      </Tag>
+                      <Text color="gray.400" fontSize="xs">
+                        {moment(createdAt).fromNow()}
+                      </Text>
                     </HStack>
-                    
                   </Box>
 
                   <Divider />

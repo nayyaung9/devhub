@@ -27,7 +27,11 @@ import Link from "next/link";
 import routeItems from "./routes";
 
 const NavLink = ({ children }: { children: any }) => (
-  <Link href={children.route}>{children.name}</Link>
+  <Link href={children.route}>
+    <Flex mb={3}>
+      <Text color="black">{children.name}</Text>{" "}
+    </Flex>
+  </Link>
 );
 
 export default function Header() {
@@ -109,10 +113,10 @@ export default function Header() {
                 </React.Fragment>
               ) : (
                 <HStack spacing={4} alignItems={"center"}>
-                    <Button variant="ghost">
-                  <Link href="/sign-in">
-                    <Text fontSize="sm">Sign In </Text>
-                  </Link>
+                  <Button variant="ghost">
+                    <Link href="/sign-in">
+                      <Text fontSize="sm">Sign In </Text>
+                    </Link>
                   </Button>
                   <Box display={{ md: "block", base: "none" }}>
                     <Button variant="outline">

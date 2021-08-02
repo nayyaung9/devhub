@@ -28,3 +28,7 @@
 body {
   background-color: rgba(243, 244, 246, 1) !important;
 }
+
+.ql-editor {
+  min-height: 300px;
+}

@@ -8,7 +8,12 @@ export default {
     },
     {
       id: 2,
-      name: "Learn from real world",
+      name: "Blogs",
+      route: "/blogs",
+    },
+    {
+      id: 3,
+      name: "Source on Github",
       route: "/blogs",
     },
   ],
@@ -21,6 +26,11 @@ export default {
     {
       id: 2,
       name: "Create blog",
+      route: "/new/blog",
+    },
+    {
+      id: 3,
+      name: "Profile Setting",
       route: "/new/blog",
     },
   ],

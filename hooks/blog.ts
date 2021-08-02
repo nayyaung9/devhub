@@ -14,3 +14,17 @@ export function useBlogs() {
     isError: error,
   };
 }
+
+/**
+ * This hook serves to fetch api that belongs to authenticated user.
+ */
+export function useMeBlogs() {
+  const { data, error } = useSWR("/api/blog/me", fetcher);
+  const blogs = data?.blogs;
+
+  return {
+    blogs,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}

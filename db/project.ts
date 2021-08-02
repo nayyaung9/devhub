@@ -21,3 +21,16 @@ export async function fetchAllProjects() {
     throw error;
   }
 }
+
+
+export async function fetchAuthUserProjects() {
+  try {
+    let projects = await Project.find()
+      .populate("user")
+      .sort({ createdAt: -1 });
+
+    return projects;
+  } catch (error) {
+    throw error;
+  }
+}
