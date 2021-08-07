@@ -6,14 +6,28 @@ import {
   Text,
   Container,
   SimpleGrid,
+  FormControl,
+  Input,
+  FormErrorMessage,
+  Button,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
-import { Formik } from "formik";
-import { InputControl, SubmitButton } from "formik-chakra-ui";
-import { signUpValidation } from "utils/form-validation";
 import { useRouter } from "next/router";
 import { useCurrentUser } from "hooks/index";
 import AuthHeader from "components/header/AuthHeader";
+
+// Form Validation
+import { signUpValidation } from "utils/form-validation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+type IRegisterPayload = {
+  email: string;
+  fullName: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const SignUp: NextPage = () => {
   const [user, { mutate }] = useCurrentUser();
@@ -23,7 +37,33 @@ const SignUp: NextPage = () => {
     // redirect to home if user is authenticated
     if (user) router.push("/");
   }, [user]);
-  
+
+  const onSubmit = async (values: IRegisterPayload) => {
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (res.status === 201) {
+        const userObj = await res.json();
+        mutate(userObj);
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(signUpValidation),
+  });
+
   return (
     <React.Fragment>
       <AuthHeader />
@@ -80,98 +120,76 @@ const SignUp: NextPage = () => {
                 Here. Be a better developers.
               </Text>
             </Stack>
-            <Formik
-              initialValues={{
-                email: "",
-                fullName: "",
-                username: "",
-                password: "",
-                passwordConfirmation: "",
-              }}
-              validationSchema={signUpValidation}
-              onSubmit={async (values) => {
-                try {
-                  const res = await fetch("/api/auth/register", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(values),
-                  });
 
-                  if (res.status === 201) {
-                    const userObj = await res.json();
-                    mutate(userObj);
-                    router.push("/");
-                  }
-                } catch (error) {
-                  console.log(error);
-                }
-              }}
-            >
-              {({ handleSubmit, values, errors }) => (
-                <Box as={"form"} onSubmit={handleSubmit}>
-                  <Stack spacing={4}>
-                    <InputControl
-                      color={"gray.500"}
-                      name="email"
-                      inputProps={{
-                        placeholder: "Email",
-                        background: "gray.100",
-                      }}
+            <Box>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={4}>
+                  <FormControl isInvalid={errors.email}>
+                    <Input
+                      id="email"
+                      placeholder="Email"
+                      {...register("email")}
                     />
+                    <FormErrorMessage>
+                      {errors.email && errors.email.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                    <InputControl
-                      color={"gray.500"}
-                      name="fullName"
-                      inputProps={{
-                        placeholder: "Full Name",
-                        background: "gray.100",
-                      }}
+                  <FormControl isInvalid={errors.fullName}>
+                    <Input
+                      id="fullName"
+                      placeholder="Fullname"
+                      {...register("fullName")}
                     />
+                    <FormErrorMessage>
+                      {errors.fullName && errors.fullName.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                    <InputControl
-                      color={"gray.500"}
-                      name="username"
-                      inputProps={{
-                        placeholder: "Username",
-                        background: "gray.100",
-                      }}
+                  <FormControl isInvalid={errors.username}>
+                    <Input
+                      id="username"
+                      placeholder="Username"
+                      {...register("username")}
                     />
+                    <FormErrorMessage>
+                      {errors.username && errors.username.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                    <InputControl
-                      color={"gray.500"}
-                      name="password"
-                      inputProps={{
-                        placeholder: "Password",
-                        background: "gray.100",
-                      }}
+                  <FormControl isInvalid={errors.password}>
+                    <Input
+                      id="password"
+                      placeholder="Password"
+                      {...register("password")}
                     />
+                    <FormErrorMessage>
+                      {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                    <InputControl
-                      color={"gray.500"}
-                      name="passwordConfirmation"
-                      inputProps={{
-                        placeholder: "Confirm Password",
-                        background: "gray.100",
-                      }}
+                  <FormControl isInvalid={errors.passwordConfirmation}>
+                    <Input
+                      id="passwordConfirmation"
+                      placeholder="Confirm Password"
+                      {...register("passwordConfirmation")}
                     />
-                  </Stack>
-                  <SubmitButton
-                    fontFamily={"heading"}
-                    mt={4}
-                    w={"full"}
-                    bgGradient="linear(to-r, red.400,pink.400)"
-                    color={"white"}
-                    _hover={{
-                      bgGradient: "linear(to-r, red.400,pink.400)",
-                      boxShadow: "xl",
-                    }}
-                  >
-                    Sign in
-                  </SubmitButton>
-                </Box>
-              )}
-            </Formik>
-            form
+                    <FormErrorMessage>
+                      {errors.passwordConfirmation && errors.passwordConfirmation.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </Stack>
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  isLoading={isSubmitting}
+                  type="submit"
+                  w="full"
+                >
+                  Submit
+                </Button>
+              </form>
+            </Box>
           </Stack>
         </Container>
       </Box>

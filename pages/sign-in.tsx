@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from "react";
 import {
   Flex,
@@ -6,7 +5,6 @@ import {
   FormControl,
   Stack,
   Link,
-  FormLabel,
   Input,
   Heading,
   FormErrorMessage,
@@ -15,10 +13,14 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useCurrentUser } from "hooks/index";
 import AuthHeader from "components/header/AuthHeader";
+
+// Form Validation
+import { signInValidation } from "utils/form-validation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type ILoginPayload = {
   email: string;
@@ -38,7 +40,9 @@ const SignIn: NextPage = () => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(signInValidation),
+  });
 
   const onSubmit = async (values: ILoginPayload) => {
     try {
@@ -87,9 +91,7 @@ const SignIn: NextPage = () => {
                   <Input
                     id="email"
                     placeholder="Email"
-                    {...register("email", {
-                      required: "Email is required.",
-                    })}
+                    {...register("email")}
                   />
                   <FormErrorMessage>
                     {errors.email && errors.email.message}
@@ -100,13 +102,7 @@ const SignIn: NextPage = () => {
                   <Input
                     id="password"
                     placeholder="Password"
-                    {...register("password", {
-                      required: "Please enter your password.",
-                      minLength: {
-                        value: 8,
-                        message: "Minimum length should be 8",
-                      },
-                    })}
+                    {...register("password")}
                   />
                   <FormErrorMessage>
                     {errors.password && errors.password.message}

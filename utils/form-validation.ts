@@ -8,8 +8,6 @@ const invalidEmail = "Email must be a valid email";
 
 export const signUpValidation = Yup.object().shape({
   email: Yup.string()
-    .min(3, emailNotLongEnough)
-    .max(100)
     .email(invalidEmail)
     .required("Email is required"),
   username: Yup.string()
@@ -26,7 +24,7 @@ export const signUpValidation = Yup.object().shape({
     .required("Please Enter your password"),
   passwordConfirmation: Yup.string().oneOf(
     [Yup.ref("password"), null],
-    "Passwords must match"
+    "Passwords does not match"
   ),
 });
 
