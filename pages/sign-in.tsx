@@ -101,6 +101,7 @@ const SignIn: NextPage = () => {
                 <FormControl isInvalid={errors.password}>
                   <Input
                     id="password"
+                    type="password"
                     placeholder="Password"
                     {...register("password")}
                   />

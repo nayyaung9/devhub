@@ -161,6 +161,7 @@ const SignUp: NextPage = () => {
                     <Input
                       id="password"
                       placeholder="Password"
+                      type="password"
                       {...register("password")}
                     />
                     <FormErrorMessage>
@@ -172,10 +173,12 @@ const SignUp: NextPage = () => {
                     <Input
                       id="passwordConfirmation"
                       placeholder="Confirm Password"
+                      type="password"
                       {...register("passwordConfirmation")}
                     />
                     <FormErrorMessage>
-                      {errors.passwordConfirmation && errors.passwordConfirmation.message}
+                      {errors.passwordConfirmation &&
+                        errors.passwordConfirmation.message}
                     </FormErrorMessage>
                   </FormControl>
                 </Stack>
