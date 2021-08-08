@@ -2,18 +2,28 @@ import React from "react";
 import { Box, Flex, Text, Image, Avatar, IconButton } from "@chakra-ui/react";
 import moment from "moment";
 import { FaRegStar } from "react-icons/fa";
+import Link from "next/link";
 
 const BlogList = ({ blogs }: any) => {
   return (
     <Box>
       {blogs.map(
-        ({ id, title, content, featureImageUrl, user, createdAt }: any) => (
+        ({
+          _id,
+          title,
+          content,
+          featureImageUrl,
+          user,
+          createdAt,
+          slug,
+        }: any) => (
           <Box
-            key={id}
+            key={_id}
             boxShadow="0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)"
             borderRadius=".25rem"
             bgColor="white"
             mb={4}
+            cursor="pointer"
           >
             <Box p={4}>
               <Flex flexDirection="row" alignItems="center">
@@ -24,9 +34,11 @@ const BlogList = ({ blogs }: any) => {
                 />
                 <Box ml={2}>
                   <Flex flexDirection="row">
-                    <Text fontSize="md" fontWeight="bold">
-                      {user?.fullName}&nbsp;
-                    </Text>
+                    <Link href={`/@${user?._id}`} passHref>
+                      <Text fontSize="md" fontWeight="bold">
+                        {user?.fullName}&nbsp;
+                      </Text>
+                    </Link>
                   </Flex>
                   <Text color="gray.400" fontSize="xs">
                     {moment(createdAt).fromNow()}
@@ -36,16 +48,26 @@ const BlogList = ({ blogs }: any) => {
 
               {/* Title & Actions */}
               <Flex mt={3}>
-                <Text fontSize="md" noOfLines={1}>
-                  {title}
-                </Text>
+                <Link href={`/@${user?._id}/${_id}`} passHref>
+                  <Text fontSize="md" noOfLines={1}>
+                    {title}
+                  </Text>
+                </Link>
               </Flex>
               {/* Title & Actions */}
 
               {/* Content */}
-              <Text fontSize="sm" color="gray.600" mt={2} mb={2} noOfLines={3}>
-                <div dangerouslySetInnerHTML={{ __html: content }} />
-              </Text>
+              <Link href={`/@${user?._id}/${_id}`} passHref>
+                <Text
+                  fontSize="sm"
+                  color="gray.600"
+                  mt={2}
+                  mb={2}
+                  noOfLines={3}
+                >
+                  <div dangerouslySetInnerHTML={{ __html: content }} />
+                </Text>
+              </Link>
             </Box>
             {/* Content */}
 

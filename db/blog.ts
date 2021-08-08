@@ -12,11 +12,11 @@ export async function createBlog({ ...payload }) {
 
 export async function fetchAllBlogs() {
   try {
-    let projects = await Blog.find()
+    let blogs = await Blog.find()
       .populate("user", "-password -createdAt -updatedAt")
       .sort({ createdAt: -1 });
 
-    return projects;
+    return blogs;
   } catch (error) {
     throw error;
   }
@@ -24,8 +24,20 @@ export async function fetchAllBlogs() {
 
 export async function fetchAuthUserBlogs(userId: string) {
   try {
-    let projects = await Blog.find({ user: userId })
+    let blogs = await Blog.find({ user: userId })
       .populate("user")
+      .sort({ createdAt: -1 });
+
+    return blogs;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function fetchBlogDetail(id: string) {
+  try {
+    let projects = await Blog.findById(id)
+      .populate("user", "-password -createdAt -updatedAt")
       .sort({ createdAt: -1 });
 
     return projects;

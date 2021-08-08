@@ -44,12 +44,16 @@ const LaunchBlog: NextPage = () => {
     if (user === null) router.push("/");
   }, [user]);
 
-  const onSubmit = async (values: IBlogPayload) => {
+  const onSubmit = async (values: any) => {
     try {
+      const payload = {
+        title: values.title,
+        content: state.content,
+      };
       let newblog = await fetch("/api/blog/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
 
       const { blog } = await newblog.json();
@@ -62,7 +66,8 @@ const LaunchBlog: NextPage = () => {
         isClosable: true,
       });
       if (blog) {
-        router.push(`/p/${blog?.slug}`);
+        router.push(`/@${user?._id}/${blog?._id}`);
+      
       }
     } catch (error) {
       toast({
@@ -83,6 +88,10 @@ const LaunchBlog: NextPage = () => {
     resolver: yupResolver(blogValidation),
   });
 
+  const onEditorSetContent = (content: string) => {
+    setState({ ...state, content });
+  };
+
   return (
     <Layout>
       <Container mt={3}>
@@ -98,7 +107,10 @@ const LaunchBlog: NextPage = () => {
             </FormControl>
 
             <FormControl id="description" bgColor="white">
-              <Editor content={state.content} onChange={setState} />
+              <Editor
+                content={state.content}
+                onEditorSetContent={onEditorSetContent}
+              />
             </FormControl>
 
             <ImageUpload />
@@ -107,9 +119,10 @@ const LaunchBlog: NextPage = () => {
             <Button
               mt={4}
               w={"full"}
-              colorScheme="teal"
               isLoading={isSubmitting}
               type="submit"
+              bg="brand.dark"
+              colorScheme="brand.white"
             >
               Submit
             </Button>

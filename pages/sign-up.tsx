@@ -184,7 +184,8 @@ const SignUp: NextPage = () => {
                 </Stack>
                 <Button
                   mt={4}
-                  colorScheme="teal"
+                  bg="brand.dark"
+                  colorScheme="brand.white"
                   isLoading={isSubmitting}
                   type="submit"
                   w="full"

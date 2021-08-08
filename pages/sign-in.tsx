@@ -112,7 +112,8 @@ const SignIn: NextPage = () => {
                 <Stack spacing={6}>
                   <Button
                     mt={4}
-                    colorScheme="teal"
+                    bg="brand.dark"
+                    colorScheme="brand.white"
                     isLoading={isSubmitting}
                     type="submit"
                   >

@@ -28,3 +28,17 @@ export function useMeBlogs() {
     isError: error,
   };
 }
+
+/**
+ * Fetch blog detail by blog id
+ */
+export function useBlogDetail(id: string) {
+  const { data, error } = useSWR(`/api/blog/${id}`, fetcher);
+  const blog = data?.blog;
+
+  return {
+    blog,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
