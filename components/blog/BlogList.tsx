@@ -23,7 +23,6 @@ const BlogList = ({ blogs }: any) => {
             borderRadius=".25rem"
             bgColor="white"
             mb={4}
-            cursor="pointer"
           >
             <Box p={4}>
               <Flex flexDirection="row" alignItems="center">
@@ -35,7 +34,7 @@ const BlogList = ({ blogs }: any) => {
                 <Box ml={2}>
                   <Flex flexDirection="row">
                     <Link href={`/@${user?._id}`} passHref>
-                      <Text fontSize="md" fontWeight="bold">
+                      <Text fontSize="md" fontWeight="bold" cursor="pointer">
                         {user?.fullName}&nbsp;
                       </Text>
                     </Link>
@@ -49,7 +48,7 @@ const BlogList = ({ blogs }: any) => {
               {/* Title & Actions */}
               <Flex mt={3}>
                 <Link href={`/@${user?._id}/${_id}`} passHref>
-                  <Text fontSize="md" noOfLines={1}>
+                  <Text fontSize="md" noOfLines={1} cursor="pointer">
                     {title}
                   </Text>
                 </Link>
@@ -64,6 +63,7 @@ const BlogList = ({ blogs }: any) => {
                   mt={2}
                   mb={2}
                   noOfLines={3}
+                  cursor="pointer"
                 >
                   <div dangerouslySetInnerHTML={{ __html: content }} />
                 </Text>

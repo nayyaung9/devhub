@@ -13,3 +13,12 @@ interface ResponseUser {
   createdAt: date;
   updatedAt: date;
 }
+
+interface BlogResponse {
+  title: string;
+  content: string;
+  user: ResponseUser,
+  createdAt: string;
+  featureImageUrl: string;
+  slug: string;
+}
