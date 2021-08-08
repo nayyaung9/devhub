@@ -32,3 +32,12 @@ body {
 .ql-editor {
   min-height: 300px;
 }
+
+
+#nprogress {
+  position: relative !important;
+  z-index: 9999999 !important;
+}
+#nprogress .bar {
+  background: #1F2833 !important;
+}
